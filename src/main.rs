@@ -1,5 +1,5 @@
 use itertools::*;
-use rhai::{Array, Dynamic, Engine, EvalAltResult, Func, Scope, INT};
+use rhai::{Dynamic, Engine, EvalAltResult, Func};
 use rusvid_core::plane::Plane;
 
 use pixel::Pixel;
