@@ -645,6 +645,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "itertools",
+ "rand",
  "rhai",
  "rusvid_core",
  "rusvid_effect",

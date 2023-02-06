@@ -1,4 +1,5 @@
 use anyhow::Result;
+use rand::prelude::*;
 use rusvid_core::plane::Plane;
 use rusvid_effect::EffectLogic;
 
@@ -16,14 +17,14 @@ fn main() -> Result<()> {
     let mut plane = Plane::new(width, height)?;
     for x in 0..width {
         for y in 0..height {
-            plane.put_pixel(x, y, [255; 4])?;
+            plane.put_pixel(x, y, [random(), random(), random(), 255])?;
         }
     }
+    plane.clone().save_as_png("og.png")?;
 
-    let effect = CustomEffect::new("calc", SCRIPT);
-
-    let output_plane = effect.apply(plane)?;
-    output_plane.save_as_png("out.png")?;
+    let effect = CustomEffect::new("grayscale", SCRIPT);
+    plane = effect.apply(plane)?;
+    plane.save_as_png("out.png")?;
 
     Ok(())
 }

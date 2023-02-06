@@ -45,8 +45,8 @@ impl EffectLogic for CustomEffect {
 
         engine.register_fn("width", move || -> u32 { width.clone() });
         engine.register_fn("height", move || -> u32 { height.clone() });
-        engine.register_fn("get_pixel", move |x: i64, y: i64| -> Dynamic {
-            let p = original.pixel(x as u32, y as u32);
+        engine.register_fn("get_pixel", move |x: u32, y: u32| -> Dynamic {
+            let p = original.pixel(x, y);
 
             match p {
                 Some(value) => Dynamic::from_array(vec![
