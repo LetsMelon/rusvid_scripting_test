@@ -1,7 +1,8 @@
 use itertools::*;
-use pixel::Pixel;
 use rhai::{Dynamic, Engine, EvalAltResult, Func, INT};
 use rusvid_core::plane::Plane;
+
+use crate::pixel::Pixel;
 
 mod pixel;
 
