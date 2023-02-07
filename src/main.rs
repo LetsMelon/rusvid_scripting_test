@@ -22,7 +22,7 @@ fn main() -> Result<()> {
     }
     plane.clone().save_as_png("og.png")?;
 
-    let effect = CustomEffect::new("grayscale", SCRIPT);
+    let effect = CustomEffect::new("box_blur", SCRIPT);
     plane = effect.apply(plane)?;
     plane.save_as_png("out.png")?;
 

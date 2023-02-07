@@ -66,3 +66,37 @@ fn grayscale(x, y) {
 
     pixel(grayscale_value, grayscale_value, grayscale_value, pixel.a)
 }
+
+fn box_blur(x, y) {
+    const SIZE = 3;
+    const OFFSET = (SIZE.to_float() / 2.0).floor().to_int();
+
+    let count = 0.0;
+
+    let r = 0.0;
+    let g = 0.0;
+    let b = 0.0;
+    let a = 0.0;
+
+    for offset_x in 0..SIZE {
+        for offset_y in 0..SIZE {
+            let c = get_pixel(x + offset_x - OFFSET, y + offset_y - OFFSET);
+
+            if (type_of(c) == "array") {
+                r += c[0].to_float();
+                g += c[1].to_float();
+                b += c[2].to_float();
+                a += c[3].to_float();
+
+                count += 1.0;
+            }
+        }
+    }
+
+    pixel(
+        (r / count).to_int(),
+        (g / count).to_int(),
+        (b / count).to_int(),
+        (a / count).to_int()
+    )
+}

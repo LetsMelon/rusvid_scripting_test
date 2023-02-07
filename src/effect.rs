@@ -43,27 +43,31 @@ impl EffectLogic for CustomEffect {
         engine.set_optimization_level(OptimizationLevel::Full);
         engine.build_type::<crate::pixel::Pixel>();
 
-        engine.register_fn("width", move || -> u32 { width.clone() });
-        engine.register_fn("height", move || -> u32 { height.clone() });
-        engine.register_fn("get_pixel", move |x: u32, y: u32| -> Dynamic {
-            let p = original.pixel(x, y);
+        engine.register_fn("width", move || -> INT { width.clone() as INT });
+        engine.register_fn("height", move || -> INT { height.clone() as INT });
+        engine.register_fn("get_pixel", move |x: INT, y: INT| -> Dynamic {
+            if x < 0 || y < 0 {
+                return Dynamic::UNIT;
+            }
+
+            let p = original.pixel(x as u32, y as u32);
 
             match p {
                 Some(value) => Dynamic::from_array(vec![
-                    Dynamic::from(value[0] as INT),
-                    Dynamic::from(value[1] as INT),
-                    Dynamic::from(value[2] as INT),
-                    Dynamic::from(value[3] as INT),
+                    Dynamic::from(value[0]),
+                    Dynamic::from(value[1]),
+                    Dynamic::from(value[2]),
+                    Dynamic::from(value[3]),
                 ]),
                 None => Dynamic::UNIT,
             }
         });
 
         let function =
-            Func::<(u32, u32), Pixel>::create_from_script(engine, self.script, &self.entry_point)?;
+            Func::<(INT, INT), Pixel>::create_from_script(engine, self.script, &self.entry_point)?;
 
-        let data = (0..width)
-            .cartesian_product(0..height)
+        let data = (0..(width as INT))
+            .cartesian_product(0..(height as INT))
             .map(|(x, y)| {
                 let p = function(x, y).unwrap();
                 p.to_raw()
