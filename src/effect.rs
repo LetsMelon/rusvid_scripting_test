@@ -62,14 +62,13 @@ impl EffectLogic for CustomEffect {
         let function =
             Func::<(u32, u32), Pixel>::create_from_script(engine, self.script, &self.entry_point)?;
 
-        let mut data = vec![[0_u8; 4]; (width * height) as usize];
-
-        data.iter_mut()
-            .zip((0..width).cartesian_product(0..height))
-            .for_each(|(p, (x, y))| {
-                let v = function(x, y).unwrap();
-                *p = v.to_raw();
-            });
+        let data = (0..width)
+            .cartesian_product(0..height)
+            .map(|(x, y)| {
+                let p = function(x, y).unwrap();
+                p.to_raw()
+            })
+            .collect_vec();
 
         Ok(Plane::from_data_unchecked(width, height, data))
     }

@@ -2,6 +2,7 @@ use std::fmt::Display;
 
 use rhai::{Array, CustomType, EvalAltResult, Position, TypeBuilder, INT};
 
+// TODO replace with `Pixel` from `rusvid_core`
 #[derive(Debug, Clone, PartialEq)]
 pub struct Pixel {
     r: u8,

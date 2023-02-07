@@ -15,3 +15,7 @@ rusvid_effect = { git = "https://github.com/LetsMelon/rusvid.git", revision = "5
 
 [profile.dev.package.rhai]
 opt-level = 3
+
+# enables lto, only 1.06 times faster than without
+# [profile.release]
+# lto = "fat"
